@@ -1,0 +1,12 @@
+{
+  "name": "stretchtext",
+  "compatibility_date": "2026-11-19",
+  "workers_dev": false,
+  "preview_urls": false,
+  "assets": {
+    "directory": "./dist"
+  },
+  "routes": [
+    { "pattern": "stretchtext.dev", "custom_domain": true }
+  ]
+}

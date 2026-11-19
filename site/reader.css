@@ -1,0 +1,112 @@
+@font-face {
+  font-family: 'Crimson Text';
+  src: url('./fonts/crimson-text-regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: light;
+  color: #191919;
+  background: #fff;
+  font-family: 'Crimson Text', Georgia, serif;
+  -webkit-text-size-adjust: 100%;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid;
+  grid-template-rows: 1fr auto;
+}
+
+main {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  padding-block: clamp(1rem, 4svh, 4rem) .5rem;
+}
+
+figure {
+  display: grid;
+  justify-items: center;
+  margin: 0;
+  width: 100%;
+}
+
+#poem {
+  display: grid;
+  place-items: center;
+  width: min(94%, 80rem);
+  height: min(72svh, 107vw, 45rem);
+  font-size: clamp(1rem, min(4.36vw, 3.58svh), 2.35rem);
+  line-height: 1.36;
+  font-kerning: normal;
+}
+
+#poem:focus-visible { outline: 1px dotted #696969; outline-offset: 3px; }
+
+.original { max-width: 100%; }
+.original > span { display: block; }
+
+figcaption {
+  margin: clamp(.5rem, 1.8svh, 1.3rem) 1rem 0;
+  color: #4c4c4c;
+  font: 400 clamp(1rem, 1.7vw, 1.2rem)/1.45 'Crimson Text', Georgia, serif;
+  text-align: center;
+}
+
+a {
+  color: inherit;
+  text-decoration-line: underline;
+  text-decoration-color: #b8b8b8;
+  text-decoration-thickness: 1px;
+  text-underline-offset: .22em;
+}
+
+a:hover { color: #121212; text-decoration-color: currentColor; }
+a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+::selection { color: white; background: #262626; }
+
+footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .25rem 2rem;
+  padding: 0 max(1.25rem, 3vw, env(safe-area-inset-right)) max(1rem, 2.8svh, env(safe-area-inset-bottom)) max(1.25rem, 3vw, env(safe-area-inset-left));
+  color: #5b5b5b;
+  font: 400 .8125rem/1.5 system-ui, sans-serif;
+}
+
+footer p { margin: 0; }
+footer nav { display: flex; gap: 1.25rem; }
+footer a { display: inline-block; padding-block: .35rem; }
+
+@media (max-width: 31rem) {
+  footer { flex-direction: column; align-items: center; }
+}
+
+@media (max-height: 27rem) and (min-width: 31rem) {
+  main { padding-block: .5rem 0; }
+  #poem { height: 75svh; font-size: max(12px, 3.75svh); }
+  figcaption { margin-top: 0; font-size: .9rem; }
+  footer { padding-bottom: .25rem; }
+}
+
+@media print {
+  body, main, figure, #poem { display: block; min-height: 0; width: auto; height: auto; }
+  body { padding: 1.5cm; }
+  #poem { font-size: 14pt; }
+  #poem .st-stage, #poem .st-block { position: static; width: auto; height: auto; }
+  #poem .st-stage { overflow: visible; transform: none; }
+  #poem .st-block { font-size: 14pt !important; }
+  #poem .st-line { white-space: normal; }
+  #poem .st-departures { display: none; }
+  figcaption { margin: 1.5em 0 0; text-align: left; }
+  footer { display: none; }
+}

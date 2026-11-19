@@ -1,0 +1,32 @@
+{
+  "name": "stretchtext",
+  "version": "0.1.0",
+  "description": "A browser element for stretching authored text by line, word, or syllable.",
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./millay": "./site/millay.js",
+    "./skill": "./skills/stretchtext/SKILL.md"
+  },
+  "files": [
+    "src/",
+    "site/millay.js",
+    "skills/stretchtext/"
+  ],
+  "scripts": {
+    "test": "node --test",
+    "build": "node scripts/build-site.mjs",
+    "preview": "npm run build && python3 -m http.server 56407 --bind 127.0.0.1 --directory dist"
+  },
+  "homepage": "https://stretchtext.dev/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrjf/stretchtext.git"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  }
+}
