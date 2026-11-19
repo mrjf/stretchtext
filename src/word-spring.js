@@ -253,6 +253,7 @@ export function createWordSpring(stage, block, overlay) {
         key: m[2].toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '') || m[2],
         family: families[line],
         line,
+        lineCount: texts.length,
         index,
         size
       }))
@@ -268,6 +269,11 @@ export function createWordSpring(stage, block, overlay) {
       newAnchors = new Map();
     const retained = new Set(pairs.values()),
       revived = new Map();
+    const underway = new Map();
+    for (const word of departing) {
+      if (!underway.has(word.key)) underway.set(word.key, new Set());
+      underway.get(word.key).add(word);
+    }
     const fragment = doc.createDocumentFragment();
     for (const [line, words] of nextRows.entries()) {
       const row = doc.createElement('div');
@@ -275,12 +281,25 @@ export function createWordSpring(stage, block, overlay) {
       if (breaks.includes(line)) row.style.paddingTop = '0.6528em';
       for (const word of words) {
         let prior = pairs.get(word);
-        if (!prior && animate) {
-          prior = [...departing].find((old) => old.family === word.family && old.key === word.key);
-          if (prior) {
-            departing.delete(prior);
-            revived.set(word, prior);
+        if (!prior && underway.get(word.key)?.size) {
+          // A quick scrub can revive a word on a different line while its old
+          // instance is still closing. Catch it from its current visible pose.
+          const candidates = underway.get(word.key);
+          let nearest = Infinity;
+          for (const old of candidates) {
+            if (old.family === word.family) {
+              prior = old;
+              break;
+            }
+            const distance = Math.abs((old.line + .5) / old.lineCount - (line + .5) / texts.length);
+            if (distance < nearest) {
+              nearest = distance;
+              prior = old;
+            }
           }
+          candidates.delete(prior);
+          departing.delete(prior);
+          revived.set(word, prior);
         }
         const node = (word.node = prior ? prior.node : doc.createElement('span'));
         if (prior) {
