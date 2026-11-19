@@ -98,7 +98,7 @@ In an npm project, install `stretchtext`. Use the following in an HTML entry ser
 
 The reader starts at the original. To drive it from other code, call `reading.setForm(1, 1)` or `reading.setForm(2, 4, { animate: false })`. Keep the public reading surface simple. The element handles scrolling, pinching, keyboard input, and reduced motion.
 
-To embed the release poem, use `import { millay } from 'stretchtext/millay'` and assign `reading.poem = millay`. Credit Edna St. Vincent Millay and identify the compressed forms as adaptations. For a plain HTML page using the hosted release, its native module URLs are `https://stretchtext.dev/src/index.js` and `https://stretchtext.dev/site/millay.js`.
+To embed Millay’s sonnet, use `import { millay } from 'stretchtext/millay'` and assign `reading.poem = millay`. Credit Edna St. Vincent Millay and identify the compressed forms as adaptations. For a plain HTML page using the hosted release, its native module URLs are `https://stretchtext.dev/src/index.js` and `https://stretchtext.dev/site/millay.js`.
 
 ## Customize the motion in code
 

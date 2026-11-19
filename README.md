@@ -1,6 +1,6 @@
 # Stretchtext
 
-[Read the poem](https://stretchtext.dev/) · [Agent instructions for writing and embedding variations](skills/stretchtext/SKILL.md)
+[stretchtext.dev](https://stretchtext.dev/) · [Agent instructions for writing and embedding variations](skills/stretchtext/SKILL.md)
 
 ## Put the poem on a page
 
@@ -21,6 +21,6 @@ Run `npm run preview` to read the demo locally with Node.js and Python 3. Run `n
 
 ## Credits
 
-The full poem is Edna St. Vincent Millay’s “What lips my lips have kissed, and where, and why,” from *The Harp-Weaver and Other Poems* (1923). The other forms are adaptations. [Source text](https://rpo.library.utoronto.ca/content/sonnets-1923)
+The bundled Millay example uses Edna St. Vincent Millay’s “What lips my lips have kissed, and where, and why,” from *The Harp-Weaver and Other Poems* (1923). The other forms are adaptations. [Source text](https://rpo.library.utoronto.ca/content/sonnets-1923)
 
 Inspired by Ted Nelson’s *Stretchtext*. [Nelson’s description in *Computer Lib / Dream Machines*, p. 315](https://www.newmediareader.com/book_samples/nmr-21-nelson.pdf#page=15)
