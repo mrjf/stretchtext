@@ -395,63 +395,13 @@ function keys(lines) {
   return (octave[first] + ' ' + sestet[second]).split(' ');
 }
 
-// At 11–14 syllables, open one phrase of the 10-syllable line. The
-// untouched part keeps its words and rhyme as the form widens.
-const phrases = `
-My lips forget.|My lips forget yours.|My lips forget your name.|My lips forget your first kiss.|My lips forget the taste of yours.
-Rain taps the glass|Rain taps the cold glass|Rain taps my bedroom glass|Rain taps the dark bedroom glass|Rain taps the glass beside my bed
-My branches know them|My bare branches know them|My winter branches know them|My bare winter branches know them|My branches in the frost still know them
-What ghost of kisses|What pale ghost of kisses|What ghost of summer kisses|What pale ghost of summer kisses|What ghost of kisses half forgotten
-My branches miss the birds|My branches miss the brown birds|My branches miss the springtime birds|My branches miss the small springtime birds|My branches miss the little springtime birds
-My summer sang in me.|My summer once sang in me.|My summer sang in me at dusk.|My summer sang in me until dusk.|My summer sang in me until the dusk.
-Whose lips were those,|Whose warm lips were those,|Whose lips were those at dusk,|Whose lips were those in the dusk,|Whose lips were those beside my cheek,
-I hear a lover sigh|I hear one lost lover sigh|I hear a lover turn and sigh|I hear the lover I once knew sigh|I hear my nameless lover turn and sigh
-Tonight the rain taps|Tonight the cold rain taps|Tonight the autumn rain taps|Tonight the late autumn rain taps|Tonight the rain taps against the door
-No lips will wake me|No warm lips will wake me|No lips will wake me from sleep|No lips will wake me from my sleep|No lips will wake me out of my sleep
-The ghosts come tapping|The lost ghosts come tapping|The ghosts come tapping softly|The ghosts come tapping in the dark|The ghosts come tapping, breath against breath,
-I try to call those lads|I try to call those lost lads|I try to call those absent lads|I try to call each long-absent lad|I try to call those lads I used to love
-For unremembered lads|For unremembered young lads|For unremembered laughing lads|For unremembered lads of my youth|For unremembered lads of years gone by
-At midnight none will turn|At midnight none will now turn|At midnight no one now will turn|At midnight not one of them will turn|At midnight not a single one will turn
-Will turn to me at midnight|Will turn to me once at midnight|Will turn to me at midnight from sleep|Will turn to me at midnight from his sleep|Will turn to me at midnight from a deep sleep
-I cannot name the lips|I cannot name those warm lips|I cannot name the lips I kissed|I cannot name the lips I once kissed|I cannot name the lips that once touched mine
-A little while,|A little while once,|A little while in spring,|A little while one warm spring,|A little while when spring was young,
-Thus in the winter stands|Thus in the first hard frost stands|Thus in the winter snow there stands|Thus in the winter snow alone stands|Thus in the hush of winter snow there stands
-Its branches miss the songs|Its bare branches miss the songs|Its branches miss the birds’ lost songs|Its branches miss the first songs of spring|Its winter branches miss the songs of spring
-I only know that summer|I only know that once summer|I only know that one summer day|I only know that summer in full leaf|I only know that summer once in full leaf
-The rain taps at my glass.|The rain taps at my cold glass.|The rain taps at the darkened glass.|The rain taps at my glass as night falls.|The rain taps at my glass as the night falls.
-in my heart there stirs|in my heart there now stirs|in my heart once more there stirs|in my heart in the dark there stirs|in my heart like a small bird there stirs
-I cannot say whose feet|I cannot say whose bare feet|I cannot say whose naked feet|I cannot say whose two bare soft feet|I cannot say whose feet at break of day
-What lips and arms were mine|What lips and warm arms were mine|What lips and arms were mine at dusk|What lips and arms were mine in the dark|What lips and arms were mine before the dawn
-Where once my head lay warm,|Where once my head lay warm, now|Where once my head lay warm at dawn,|Where once my head lay warm on your arm,|Where once my head lay warm inside your arm,
-Under my head till morning|Under my head till pale morning|Under my head till morning broke cold|Under my head till morning came in grey|Under my head till morning came through the glass
-what birds have vanished|what small birds have vanished|what birds have vanished southward|what birds have vanished down the wind|what birds have vanished on the north wind
-It hears a hush|It hears a deep hush|It hears a winter hush|It hears the hush of winter|It hears the hush of winter snow
-its boughs more silent|its bare boughs more silent|its boughs in frost more silent|its boughs in the frost more silent|its boughs in the white frost more silent
-Of all the loves I knew|Of all the loves I once knew|Of all the loves I knew at dusk|Of all the loves I knew in the dusk|Of all the loves I knew before the dawn
-I cannot say what loves|I cannot say what young loves|I cannot say what early loves|I cannot say what unspoken loves|I cannot say what loves of wind and sun
-Tonight the ghosts come tapping|Tonight the lost ghosts come tapping|Tonight the ghosts come softly tapping|Tonight the ghosts I once loved come tapping|Tonight the ghosts I used to love come tapping
-Is full of ghosts to-night|Is full of pale ghosts to-night|Is full of ghosts of youth to-night|Is full of ghosts of my youth to-night|Is full of ghosts of all my youth to-night
-Against the glass they wait|Against the cold glass they wait|Against the glass they wait at dawn|Against the glass they wait in the rain|Against the glass they wait until the dawn
-Upon the glass and listen|Upon the cold glass and listen|Upon the glass and listen closely|Upon the bedroom glass and listen close|Upon the darkened bedroom glass and listen
-What lips my lips have kissed|What lips my lips once have kissed|What lips my lips have kissed at dusk|What lips my lips have kissed in the dusk|What lips my lips have kissed before the dawn
-I have forgotten,|I have half forgotten,|I have forgotten since, too,|I have forgotten in the dark,|I have forgotten in the cold dark,
-`.trim().split('\n').map(row => row.split('|'));
-
-const tenSyllableLines = new Set(original);
-for (let lines = 1; lines < 14; lines++) {
-  for (const key of keys(lines)) tenSyllableLines.add(shelves[key][9]);
-}
-const expanded = new Map();
-for (const line of tenSyllableLines) {
-  const [phrase, ...replacements] = phrases.find(([phrase]) => line.includes(phrase));
-  expanded.set(line, replacements.map(replacement => line.replace(phrase, replacement)));
-}
+const originalUnits = 10;
 
 function read(lines, units) {
-  if (units < 10) return keys(lines).map(key => shelves[key][units - 1]);
-  const ten = lines === 14 ? [...original] : keys(lines).map(key => shelves[key][9]);
-  if (units === 10) return ten;
-  return ten.map(line => expanded.get(line)[units - 11]);
+  // Readers may have saved a width from the earlier, expanded edition.
+  const width = Math.min(units, originalUnits);
+  if (lines === original.length && width === originalUnits) return [...original];
+  return keys(lines).map(key => shelves[key][width - 1]);
 }
 
-export const millay = { maxLines: 14, maxUnits: 14, originalUnits: 10, read, keys };
+export const millay = { maxLines: original.length, maxUnits: originalUnits, originalUnits, read, keys };

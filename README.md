@@ -13,7 +13,7 @@
 </script>
 ```
 
-Install the release archive with `npm install ./stretchtext-0.1.0.tgz`. In a bundled project, use `import 'stretchtext'` and `import { millay } from 'stretchtext/millay'`. Supply your own authored forms through the same `poem` property. Original Word Spring is the built-in effect.
+Install the release archive with `npm install ./stretchtext-0.1.1.tgz`. In a bundled project, use `import 'stretchtext'` and `import { millay } from 'stretchtext/millay'`. Supply your own authored forms through the same `poem` property. Original Word Spring is the built-in effect.
 
 Scroll horizontally for words or syllables and vertically for lines. Pinch near the center for both axes. With the poem focused, use the arrow keys, Home for the shortest form, or End for the original.
 

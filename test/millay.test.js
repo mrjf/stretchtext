@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import { millay } from 'stretchtext/millay';
 
@@ -18,12 +19,25 @@ test('every coordinate has a complete poem and a distinct key for each line', ()
   }
 });
 
-test('the original and the one-word reading occupy their intended coordinates', () => {
-  assert.equal(millay.originalUnits, 10);
-  const text = millay.read(14, millay.originalUnits);
-  assert.equal(text[0], 'What lips my lips have kissed, and where, and why,');
-  assert.equal(text.at(-1), 'A little while, that in me sings no more.');
+test('the widest reading is the exact 1923 sonnet, including in the HTML fallback', () => {
+  // Transcription of XIX, lines 4.1–4.14, https://rpo.library.utoronto.ca/content/sonnets-1923#poemline-42
+  const original = readFileSync(new URL('./fixtures/millay-xix.txt', import.meta.url), 'utf8').trimEnd().split('\n');
+  assert.equal(millay.maxLines, 14);
+  assert.equal(millay.maxUnits, 10);
+  assert.equal(millay.originalUnits, millay.maxUnits);
+  assert.deepEqual(millay.read(millay.maxLines, millay.maxUnits), original);
+  const page = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+  const fallback = page.match(/<div class="original">([\s\S]*?)<\/div>/)[1];
+  assert.deepEqual([...fallback.matchAll(/<span>(.*?)<\/span>/g)].map(match => match[1]), original);
   assert.deepEqual(millay.read(1, 1), ['Once.']);
+});
+
+test('old expanded coordinates return the ten-syllable form at every height', () => {
+  for (let lines = 1; lines <= millay.maxLines; lines++) {
+    for (let width = 11; width <= 14; width++) {
+      assert.deepEqual(millay.read(lines, width), millay.read(lines, 10));
+    }
+  }
 });
 
 test('the five-line contraction keeps the closing couplet and its line identities', () => {
